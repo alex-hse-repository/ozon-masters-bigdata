@@ -1,15 +1,14 @@
 #!/opt/conda/envs/dsenv/bin/python
 
 #
-# This is a MAE scorer
+# This is a Log Loss scorer
 #
 
 import sys
 import os
 import logging
 import pandas as pd
-from sklearn.metrics import mean_absolute_error
-
+from sklearn.metrics import log_loss
 #
 # Init the logger
 #
@@ -32,10 +31,10 @@ logging.info(f"PRED PATH {pred_path}")
 
 
 #open true path
-df_true = pd.read_csv(true_path, header=None, index_col=0, names=["id", "true"])
+df_true = pd.read_csv(true_path, sep='\t', header=None, index_col=0, names=["id", "true"])
 
 #open pred_path
-df_pred = pd.read_csv(pred_path, header=None, index_col=0, names=["id", "pred"])
+df_pred = pd.read_csv(pred_path, sep='\t', header=None, index_col=0, names=["id", "pred"])
 
 len_true = len(df_true)
 len_pred = len(df_pred)
@@ -47,13 +46,10 @@ assert len_true == len_pred, f"Number of records differ in true and predicted se
 
 df = df_true.join(df_pred)
 len_df = len(df)
-assert len_true == len_df, f"Kombined true and pred has different number of records: {len_df}"
+assert len_true == len_df, f"Combined true and pred has different number of records: {len_df}"
 
-score = mean_absolute_error(df['true'], df['pred'])
+score = log_loss(df['true'], df['pred'])
 
 print(score)
 
 sys.exit(0)
-
-
-
