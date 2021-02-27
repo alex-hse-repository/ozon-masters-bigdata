@@ -6,7 +6,6 @@ from glob import glob
 import logging
 
 sys.path.append('.')
-from model import fields,features
 
 #
 # Init the logger
@@ -27,6 +26,13 @@ if len(filter_cond_files) != 1:
     sys.exit(1)
 
 exec(open(filter_cond_files[0]).read())
+
+numeric_features = ["if"+str(i) for i in range(1,14)]
+categorical_features = ["cf"+str(i) for i in range(1,27)] + ["day_number"]
+categorical_features_train = ["cf"+str(i) for i in [6,8,13,14,16,17,19,25]] 
+features = numeric_features+categorical_features_train
+fields = ["id"] + numeric_features + categorical_features
+
 
 #
 # Optional argument
