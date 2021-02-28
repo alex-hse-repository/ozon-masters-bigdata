@@ -58,4 +58,5 @@ model_score = log_loss(y_test,y_pred)
 logging.info(f"model score: {model_score:.3f}")
 
 # Save the model
-dump(model, "{}.joblib".format(proj_id))
+dump(model, "1.joblib")
+dump(model, "projects/1/1.joblib")
