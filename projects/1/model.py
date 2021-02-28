@@ -6,7 +6,7 @@ from sklearn.svm import LinearSVC
 
 numeric_features = ["if"+str(i) for i in range(1,14)]
 categorical_features = ["cf"+str(i) for i in range(1,27)] + ["day_number"]
-categorical_features_train = ["cf"+str(i) for i in [6,8,13,14,16,17,19,25]] 
+categorical_features_train = ["cf"+str(i) for i in [6,9,13,16,17,19,25,26]] 
 features = numeric_features+categorical_features_train
 fields = ["id", "label"] + numeric_features + categorical_features
 
