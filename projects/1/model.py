@@ -2,7 +2,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import LinearRegression
 
 numeric_features = ["if"+str(i) for i in range(1,14)]
 categorical_features = ["cf"+str(i) for i in range(1,27)] + ["day_number"]
@@ -20,5 +20,5 @@ preprocessor = ColumnTransformer(
 )
 model = Pipeline(steps=[
     ('preprocessor', preprocessor),
-    ('linearregression', RandomForestRegressor())
+    ('linearregression', LinearRegression())
 ])
