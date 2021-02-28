@@ -1,7 +1,7 @@
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestRegressor
 
 numeric_features = ["if"+str(i) for i in range(1,14)]
