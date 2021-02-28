@@ -2,28 +2,23 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder
-from sklearn.svm import LinearSVC
+from sklearn.ensemble import RandomForestRegressor
 
 numeric_features = ["if"+str(i) for i in range(1,14)]
 categorical_features = ["cf"+str(i) for i in range(1,27)] + ["day_number"]
-categorical_features_train = ["cf"+str(i) for i in [6,17]] 
-features = numeric_features+categorical_features_train
+features = numeric_features
 fields = ["id", "label"] + numeric_features + categorical_features
 
 numeric_transformer = Pipeline(steps=[
-    ('imputer', SimpleImputer(strategy='median'))
-])
-categorical_transformer = Pipeline(steps=[
-    ('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
-    ('onehot', OneHotEncoder(handle_unknown='ignore'))
+    ('imputer', SimpleImputer(strategy='median')),
+    ('scaller', StandardScaler())
 ])
 preprocessor = ColumnTransformer(
     transformers=[
-        ('num', numeric_transformer, numeric_features),
-        ('cat', categorical_transformer, categorical_features_train)
+        ('num', numeric_transformer, numeric_features)
     ]
 )
 model = Pipeline(steps=[
     ('preprocessor', preprocessor),
-    ('linearregression', LinearSVC())
+    ('linearregression', RandomForestRegressor())
 ])

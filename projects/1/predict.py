@@ -20,8 +20,7 @@ model = load("1.joblib")
 
 numeric_features = ["if"+str(i) for i in range(1,14)]
 categorical_features = ["cf"+str(i) for i in range(1,27)] + ["day_number"]
-categorical_features_train = ["cf"+str(i) for i in [6,17]] 
-features = numeric_features+categorical_features_train
+features = numeric_features
 fields = ["id"] + numeric_features + categorical_features
 
 #read and infere
