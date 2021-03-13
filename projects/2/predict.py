@@ -31,8 +31,8 @@ read_opts=dict(
 )
 
 for line in sys.stdin:
-    X = np.array(line.strip().split('\t'))
-    pred = model.predict(X.reshape(1,-1))
+    X = pd.DataFrame([line.strip().split('\t')],columns=fields)
+    pred = model.predict(X[features])
     out = zip(X[0], pred)
     print("\n".join(["{0}\t{1}".format(*i) for i in out]))
 
