@@ -6,4 +6,4 @@ ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t'
 LINES TERMINATED BY '\n'
 STORED AS TEXTFILE
-LOCATION 'alex-hse-repository_hw2_pred' ;
+LOCATION 'alex-hse-repository_hw2_pred';
