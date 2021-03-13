@@ -4,6 +4,7 @@ import sys, os
 import logging
 from joblib import load
 import pandas as pd
+import numpy as np
 
 sys.path.append('.')
 
@@ -29,8 +30,9 @@ read_opts=dict(
         iterator=True, chunksize=100
 )
 
-for df in pd.read_csv(sys.stdin, **read_opts):
-    pred = model.predict(df[features])
-    out = zip(df['id'], pred)
+for line in sys.stdin:
+    X = np.array(line.strip().split('\t'))
+    pred = model.predict(X.reshape(1,-1))
+    out = zip(X[0], pred)
     print("\n".join(["{0}\t{1}".format(*i) for i in out]))
 
