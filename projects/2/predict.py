@@ -4,7 +4,6 @@ import sys, os
 import logging
 from joblib import load
 import pandas as pd
-import numpy as np
 
 sys.path.append('.')
 
@@ -26,13 +25,11 @@ fields = ["id"] + numeric_features + categorical_features
 
 #read and infere
 read_opts=dict(
-        sep='\t', names=fields, index_col=False, header=None,
+        sep='\t', names=fields, index_col=False,na_values='\\N', header=None,
         iterator=True, chunksize=100
 )
 
-for line in sys.stdin:
-    X = pd.DataFrame([line.strip().split('\t')],columns=fields)
-    pred = model.predict(X[features])
-    out = zip(X[0], pred)
+for df in pd.read_csv(sys.stdin, **read_opts):
+    pred = model.predict(df[features])
+    out = zip(df['id'], pred)
     print("\n".join(["{0}\t{1}".format(*i) for i in out]))
-
