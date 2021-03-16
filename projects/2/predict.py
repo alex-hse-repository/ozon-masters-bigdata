@@ -24,9 +24,14 @@ categorical_features = ["cf"+str(i) for i in range(1,27)] + ["day_number"]
 features = numeric_features
 fields = ["id"] + numeric_features+categorical_features
 
-for line in sys.stdin:
-    X = line.strip().split('\t')
-    X = pd.DataFrame([X],columns = fields).replace('\\N',np.NaN)
-    pred = model.predict(X[features])
-    out = zip(X['id'], pred)
-    print("\n".join(["{0}\t{1}".format(*i) for i in out]))
+#read and infere
+read_opts=dict(
+        sep='\t', names=fields, index_col=False, header=None,
+        iterator=True, chunksize=100
+)
+
+for df in pd.read_csv(sys.stdin, **read_opts):
+    df = df.replace('\\N',np.NaN)
+    pred = model.predict(df[features])
+    out = zip(df['id'], pred)
+    print("\n".join(["{0}\t{1}".format(*i) for i in out]))    
