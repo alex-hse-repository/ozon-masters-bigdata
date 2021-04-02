@@ -84,11 +84,8 @@ while((not finish) and (not queue.isEmpty())):
     queue = matrix.filter(lambda x: x[1][3]=='entered')
     
 ans = matrix.filter(lambda x: x[0]==target).collect()[0][1][2] 
-
-import csv
-with open(answers_path, "w", newline="") as f:
-    writer = csv.writer(f)
-    writer.writerows(ans)
+rdd_ans = sc.parallelize(ans)
+rdd_ans.saveAsTextFile(answers_path)
     
 sc.stop()
     
