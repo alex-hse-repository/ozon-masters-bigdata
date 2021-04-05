@@ -84,7 +84,8 @@ while((not finish) and (not queue.isEmpty())):
     queue = matrix.filter(lambda x: x[1][3]=='entered')
     
 ans = matrix.filter(lambda x: x[0]==target).collect()[0][1][2] 
-rdd_ans = sc.parallelize(ans)
+ans = '\n'.join([','.join(path) for path in ans])
+rdd_ans = sc.parallelize([ans])
 rdd_ans.saveAsTextFile(answers_path)
     
 sc.stop()
