@@ -1,21 +1,37 @@
 #!/opt/conda/envs/dsenv/bin/python
 
+import pandas as pd
+import mlflow
+import mlflow.sklearn 
+import argparse
+import sklearn
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LinearRegression
-import os, sys
-import logging
-import pandas as pd
-from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import log_loss
-from joblib import dump
+from sklearn.model_selection import train_test_split
 
+#
+# Read script arguments
+#
+parser = argparse.ArgumentParser()
+parser.add_argument('--train_path', type=str,
+                        help="Path to the train dataset")
+parser.add_argument('--regularization', type=float, default=1.0,
+                        help="Inverse of regularization strength; must be a positive float. Like in support vector machines, smaller values specify stronger regularization. (default: 1.0)")
+args = parser.parse_args()
+train_path = args.train_path
+regularization = args.regularization
 
+#
+# Specifying the model
+#
 numeric_features = ["if"+str(i) for i in range(1,14)]
 categorical_features = ["cf"+str(i) for i in range(1,27)] + ["day_number"]
-features = numeric_features
+#features = numeric_features
+features = ['if1','if2']
 fields = ["id", "label"] + numeric_features + categorical_features
 
 numeric_transformer = Pipeline(steps=[
@@ -29,31 +45,9 @@ preprocessor = ColumnTransformer(
 )
 model = Pipeline(steps=[
     ('preprocessor', preprocessor),
-    ('linearregression', LinearRegression())
+    ('linearregression', LogisticRegression(C=regularization))
 ])
 
-
-#
-# Logging initialization
-#
-logging.basicConfig(level=logging.DEBUG)
-logging.info("CURRENT_DIR {}".format(os.getcwd()))
-logging.info("SCRIPT CALLED AS {}".format(sys.argv[0]))
-logging.info("ARGS {}".format(sys.argv[1:]))
-
-#
-# Read script arguments
-#
-try:
-    proj_id = sys.argv[1] 
-    train_path = sys.argv[2]
-except:
-    logging.critical("Need to pass both project_id and train dataset path")
-    sys.exit(1)
-
-
-logging.info(f"TRAIN_ID {proj_id}")
-logging.info(f"TRAIN_PATH {train_path}")
 
 #
 # Read dataset
@@ -69,13 +63,11 @@ X_train, X_test, y_train, y_test = train_test_split(
 #
 # Train the model
 #
-model.fit(X_train, y_train)
-
-y_pred = model.predict(X_test)
-model_score = log_loss(y_test,y_pred)
-
-logging.info(f"model score: {model_score:.3f}")
-
-# Save the model
-dump(model, "1.joblib")
-dump(model, "projects/1/1.joblib")
+with mlflow.start_run():
+    model.fit(X_train, y_train)
+    y_prob = model.predict_proba(X_test)
+    model_score = log_loss(y_test,y_prob)
+    mlflow.sklearn.log_model(model)
+    mlflow.log_params(model.get_params())
+    mlflow.log_param("model_param1", regularization)
+    mlflow.log_metric('log_loss', model_score)

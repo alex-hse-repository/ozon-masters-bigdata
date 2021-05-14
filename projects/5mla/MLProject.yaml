@@ -8,5 +8,5 @@ entry_points:
         command: |
         python train.py \
           --train_path={train_path} \
-          --model_param1={model_param1}
+          --regularization={model_param1}
           
