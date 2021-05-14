@@ -1,4 +1,4 @@
-name: HW5a_env
+name: HW5a
 hannels:
 - defaults
 - conda-forge

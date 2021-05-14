@@ -41,7 +41,7 @@ if __name__ == "__main__":
     ])
     preprocessor = ColumnTransformer(
         transformers=[
-            ('num', numeric_transformer, numeric_features)
+            ('num', numeric_transformer, features)
         ]
     )
     model = Pipeline(steps=[
