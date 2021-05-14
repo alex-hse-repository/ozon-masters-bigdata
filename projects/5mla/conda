@@ -1,0 +1,10 @@
+name: HW5a_env
+hannels:
+- defaults
+- conda-forge
+dependencies:
+- python=3.7.9
+- pip
+- pip:
+  - mlflow
+  - xgboost==1.4.0
