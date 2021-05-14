@@ -1,9 +1,0 @@
-name: HW5a
-conda_env: conda.yaml
-entry_points:
-    main:
-        parameters:
-            train_path: string
-            model_param1 : {type: float, default: 1.0}
-        command: "python train.py --train_path={train_path} --regularization={model_param1}"
-          
