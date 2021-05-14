@@ -4,7 +4,10 @@ hannels:
 - conda-forge
 dependencies:
 - python=3.7.9
+- sklearn
+- pandas
+- matplotlib
 - pip
 - pip:
   - mlflow
-  - xgboost==1.4.0
+
