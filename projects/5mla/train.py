@@ -52,7 +52,7 @@ model = Pipeline(steps=[
 #
 # Read dataset
 #
-read_table_opts = dict(sep="\t", names=fields, index_col=False)
+read_table_opts = dict(sep="\t", names=fields, index_col=False,nrows=10000)
 df = pd.read_table(train_path, **read_table_opts)
 
 #split train/test
