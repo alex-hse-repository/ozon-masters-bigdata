@@ -1,8 +1,9 @@
+ADD FILE projects/2/model.py;
 ADD FILE projects/2/predict.py;
-ADD FILE projects/2/2.joblib;
+ADD FILE 2.joblib;
 INSERT INTO TABLE hw2_pred
-select TRANSFORM(*) USING '/opt/conda/envs/dsenv/bin/python predict.py' as id,pred from hw2_test
-where (if1 is not NULL) and (20 < if1 and if1 < 40);
+select * from (select TRANSFORM(*) USING 'predict.py' as (id,pred) from hw2_test
+where (if1 > 20 and if1 < 40)) tmp;
 
 
 

@@ -39,7 +39,7 @@ logging.info(f"TRAIN_PATH {train_path}")
 #
 # Read dataset
 #
-read_table_opts = dict(sep="\t", names=fields, index_col=False)
+read_table_opts = dict(sep="\t", names=fields, index_col=False,na_values='\\N')
 df = pd.read_table(train_path, **read_table_opts)
 
 #split train/test
