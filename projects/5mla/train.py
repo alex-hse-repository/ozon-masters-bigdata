@@ -68,7 +68,7 @@ if __name__ == "__main__":
         model.fit(X_train, y_train)
         y_prob = model.predict_proba(X_test)
         model_score = log_loss(y_test,y_prob)
-        mlflow.sklearn.log_model(model,artifact_path="models")
+        mlflow.sklearn.log_model(model,artifact_path="model")
         #mlflow.log_params(model.get_params())
         mlflow.log_param("model_param1", regularization)
         mlflow.log_metric('log_loss', model_score)
