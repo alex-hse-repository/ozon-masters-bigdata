@@ -1,12 +1,15 @@
-name: HW5a
-conda_env: conda.yaml
+name: HW5b
 entry_points:
-  main:
-    parameters:
-      train_path: string
-      model_param1 : {type: float, default: 1.0}
-    command: "python train.py --train_path={train_path} --regularization={model_param1}"
-  etl:
-  train:
-  predict:
-  etl_predict:
+    main:
+        parameters:
+            train_path_in : string
+            sklearn_model: string
+            model_param1 : {type: float, default: 1.0}
+        command: "python main.py --train_path={train_path_in} --sklearn_model={sklearn_model} --model_param1={model_param1}"
+    etl_predict:
+        parameters:
+            test_path_in: string
+            pred_path_out: string
+            sklearn_model: {type: string, default: "test"}
+            model_version: {type: string, default: "1"}
+        command: "python etl_predict.py --test_path_in={test_path_in} --pred_path_out={pred_path_out} --sklearn_model={sklearn_model} --model_version={model_version}"
